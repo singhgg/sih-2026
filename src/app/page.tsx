@@ -1,41 +1,37 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import { LandingAuth } from "@/components/LandingAuth";
-import { SurveyDashboard } from "@/components/SurveyDashboard";
-import { createSurveyFromDraft, demoSurveys, type Survey, type SurveyDraft } from "@/lib/surveyData";
+import { isUserAuthenticated, loginUser } from "@/lib/auth";
 
 export default function Home() {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const router = useRouter();
   const [isAuthPage, setIsAuthPage] = useState(false);
-  const [surveys, setSurveys] = useState<Survey[]>(demoSurveys);
-  const [selectedSurveyId, setSelectedSurveyId] = useState<string | null>(demoSurveys[0]?.id ?? null);
 
-  const handleCreateSurvey = (draft: SurveyDraft, survey = createSurveyFromDraft(draft)) => {
-    const nextSurvey = survey;
-    setSurveys((current) => [nextSurvey, ...current]);
-    setSelectedSurveyId(nextSurvey.id);
-    setIsAuthenticated(true);
+  useEffect(() => {
+    if (isUserAuthenticated()) {
+      router.push("/dashboard");
+    }
+  }, [router]);
+
+  const handleAuthenticate = (email = "operator@marine.ai", name = "Ava Morgan") => {
+    loginUser(email, name);
+    router.push("/dashboard");
   };
 
-  if (!isAuthenticated) {
-    return (
-      <LandingAuth
-        isAuthPage={isAuthPage}
-        onAuthenticate={() => setIsAuthenticated(true)}
-        onOpenAuth={() => setIsAuthPage(true)}
-        onBackToHero={() => setIsAuthPage(false)}
-      />
-    );
-  }
+  const handleOpenSetup = () => {
+    loginUser("operator@marine.ai", "Ava Morgan");
+    router.push("/setup");
+  };
 
   return (
-    <SurveyDashboard
-      surveys={surveys}
-      selectedSurveyId={selectedSurveyId}
-      onSelectSurvey={setSelectedSurveyId}
-      onCreateSurvey={handleCreateSurvey}
-      onSurveysChange={setSurveys}
+    <LandingAuth
+      isAuthPage={isAuthPage}
+      onAuthenticate={handleAuthenticate}
+      onOpenAuth={() => setIsAuthPage(true)}
+      onBackToHero={() => setIsAuthPage(false)}
+      onOpenSetup={handleOpenSetup}
     />
   );
 }
