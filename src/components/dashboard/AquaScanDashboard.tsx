@@ -225,83 +225,86 @@ export default function AquaScanDashboard() {
       )}
 
       {/* Top Tactical Navigation Bar */}
-      <header className="h-16 flex items-center justify-between px-6 bg-slate-900/95 border-b border-slate-800 backdrop-blur z-30">
+      <header className="h-14 px-4 sm:px-5 bg-slate-900/95 border-b border-slate-800 backdrop-blur z-30 flex items-center justify-between gap-3 overflow-hidden select-none">
         {/* Left: Branding */}
-        <div className="flex items-center space-x-3">
-          <div className="relative flex items-center justify-center w-10 h-10 rounded-xl bg-gradient-to-br from-cyan-500 to-blue-600 shadow-lg shadow-cyan-500/20">
-            <Radar className="w-6 h-6 text-slate-950 animate-spin-slow" />
+        <div className="flex items-center space-x-2.5 flex-shrink-0">
+          <div className="relative flex items-center justify-center w-8 h-8 rounded-xl bg-gradient-to-br from-cyan-500 to-blue-600 shadow-md shadow-cyan-500/20 flex-shrink-0">
+            <Radar className="w-4 h-4 text-slate-950 animate-spin-slow" />
             <div className="absolute inset-0 rounded-xl border border-cyan-300/40"></div>
           </div>
-          <div>
-            <div className="flex items-center space-x-2">
-              <h1 className="text-base font-black tracking-wider text-white">AQUASCAN</h1>
-              <span className="px-1.5 py-0.5 rounded text-[10px] font-mono font-bold bg-cyan-500/20 text-cyan-400 border border-cyan-500/30">
-                v2.0 PRO
-              </span>
-            </div>
-            <p className="text-[11px] text-slate-400 font-mono">Underwater AI Sonar Intelligence Platform</p>
+          <div className="flex items-center space-x-1.5">
+            <h1 className="text-sm font-black tracking-wider text-white">AQUASCAN</h1>
+            <span className="px-1.5 py-0.5 rounded text-[9px] font-mono font-bold bg-cyan-500/20 text-cyan-400 border border-cyan-500/30">
+              v2.0 PRO
+            </span>
           </div>
         </div>
 
         {/* Center: Mission Tabs */}
-        <div className="flex items-center space-x-1.5 p-1 bg-slate-950 rounded-xl border border-slate-800">
+        <div className="flex items-center space-x-1 p-1 bg-slate-950 rounded-xl border border-slate-800 flex-shrink-0">
           <button
             onClick={() => setActiveTab('waterfall')}
-            className={`flex items-center space-x-2 px-3.5 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer ${
+            className={`flex items-center space-x-1.5 px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer whitespace-nowrap ${
               activeTab === 'waterfall'
                 ? 'bg-cyan-500 text-slate-950 shadow-sm shadow-cyan-500/20'
                 : 'text-slate-400 hover:text-slate-200'
             }`}
           >
-            <Layers className="w-3.5 h-3.5" />
-            <span>Waterfall & GIS</span>
+            <Layers className="w-3.5 h-3.5 flex-shrink-0" />
+            <span>Waterfall &amp; GIS</span>
           </button>
 
           <button
             onClick={() => setActiveTab('triage')}
-            className={`flex items-center space-x-2 px-3.5 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer ${
+            className={`flex items-center space-x-1.5 px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer whitespace-nowrap ${
               activeTab === 'triage'
                 ? 'bg-cyan-500 text-slate-950 shadow-sm shadow-cyan-500/20'
                 : 'text-slate-400 hover:text-slate-200'
             }`}
           >
-            <ShieldCheck className="w-3.5 h-3.5" />
-            <span>Target Triage ({currentScanData?.detections?.length || 0})</span>
+            <ShieldCheck className="w-3.5 h-3.5 flex-shrink-0" />
+            <span>Target Triage</span>
+            <span className={`px-1.5 py-0.2 rounded-full text-[10px] font-mono font-bold ${
+              activeTab === 'triage' ? 'bg-slate-950/40 text-slate-950' : 'bg-slate-800 text-cyan-400'
+            }`}>
+              {currentScanData?.detections?.length || 0}
+            </span>
           </button>
 
           <button
             onClick={() => setActiveTab('reports')}
-            className={`flex items-center space-x-2 px-3.5 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer ${
+            className={`flex items-center space-x-1.5 px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer whitespace-nowrap ${
               activeTab === 'reports'
                 ? 'bg-cyan-500 text-slate-950 shadow-sm shadow-cyan-500/20'
                 : 'text-slate-400 hover:text-slate-200'
             }`}
           >
-            <FileSpreadsheet className="w-3.5 h-3.5" />
-            <span>Reports & Export</span>
+            <FileSpreadsheet className="w-3.5 h-3.5 flex-shrink-0" />
+            <span>Reports &amp; Export</span>
           </button>
 
           <button
             onClick={() => setActiveTab('upload')}
-            className={`flex items-center space-x-2 px-3.5 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer ${
+            className={`flex items-center space-x-1.5 px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer whitespace-nowrap ${
               activeTab === 'upload'
                 ? 'bg-cyan-500 text-slate-950 shadow-sm shadow-cyan-500/20'
                 : 'text-slate-400 hover:text-slate-200'
             }`}
           >
-            <UploadCloud className="w-3.5 h-3.5" />
+            <UploadCloud className="w-3.5 h-3.5 flex-shrink-0" />
             <span>Upload Mission</span>
           </button>
         </div>
 
         {/* Right: Mission Selector, Quick Demo, Status & Auth User */}
-        <div className="flex items-center space-x-3">
+        <div className="flex items-center space-x-2.5 flex-shrink-0">
           {/* Scan Selector Dropdown */}
           {scans.length > 0 && (
             <select
               value={selectedScanId || ''}
               onChange={(e) => setSelectedScanId(Number(e.target.value))}
-              className="bg-slate-800 border border-slate-700 text-slate-200 text-xs rounded-lg px-3 py-1.5 focus:outline-none focus:border-cyan-500 font-mono cursor-pointer"
+              className="bg-slate-800 border border-slate-700 text-slate-200 text-xs rounded-lg px-2.5 py-1.5 focus:outline-none focus:border-cyan-500 font-mono cursor-pointer max-w-[190px] xl:max-w-[230px] truncate"
+              title="Select Active Sonar Mission"
             >
               {scans.map(s => (
                 <option key={s.id} value={s.id}>
@@ -315,7 +318,7 @@ export default function AquaScanDashboard() {
           <button
             onClick={handleGenerateDemo}
             disabled={isGeneratingDemo}
-            className="flex items-center space-x-1.5 px-3.5 py-1.5 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-slate-950 text-xs font-extrabold rounded-lg shadow-lg shadow-cyan-500/20 transition-all cursor-pointer disabled:opacity-50"
+            className="flex items-center space-x-1.5 px-3 py-1.5 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-slate-950 text-xs font-extrabold rounded-lg shadow-md shadow-cyan-500/20 transition-all cursor-pointer disabled:opacity-50 whitespace-nowrap flex-shrink-0"
           >
             {isGeneratingDemo ? (
               <Loader2 className="w-3.5 h-3.5 animate-spin" />
@@ -326,24 +329,24 @@ export default function AquaScanDashboard() {
           </button>
 
           {/* Status Indicator */}
-          <div className="flex items-center space-x-1.5 px-2.5 py-1 bg-slate-950 rounded-lg border border-slate-800 text-[11px] font-mono">
+          <div className="flex items-center space-x-1.5 px-2 py-1 bg-slate-950 rounded-lg border border-slate-800 text-[10px] font-mono flex-shrink-0">
             <span className={`w-2 h-2 rounded-full ${backendStatus === 'online' ? 'bg-emerald-400 animate-pulse' : 'bg-rose-400'}`}></span>
             <span className="text-slate-400">{backendStatus.toUpperCase()}</span>
           </div>
 
           {/* User Profile & Sign Out */}
-          <div className="flex items-center space-x-2 pl-2 border-l border-slate-800">
-            <div className="hidden xl:flex items-center space-x-1.5 text-xs text-slate-300">
+          <div className="flex items-center space-x-2 pl-2 border-l border-slate-800 flex-shrink-0">
+            <div className="hidden 2xl:flex items-center space-x-1.5 text-xs text-slate-300">
               <User className="w-3.5 h-3.5 text-cyan-400" />
-              <span className="font-semibold text-[11px]">{userProfile?.name || 'Operator'}</span>
+              <span className="font-semibold text-[11px] truncate max-w-[90px]">{userProfile?.name || 'Operator'}</span>
             </div>
             <button
               onClick={handleLogout}
-              className="flex items-center space-x-1 px-2.5 py-1 rounded-lg border border-slate-700 bg-slate-800/80 hover:bg-rose-950/40 hover:text-rose-400 hover:border-rose-700/50 text-slate-400 text-xs transition cursor-pointer"
+              className="flex items-center space-x-1.5 px-2.5 py-1.5 rounded-lg border border-slate-700 bg-slate-800/90 hover:bg-rose-950/40 hover:text-rose-400 hover:border-rose-700/50 text-slate-300 text-xs font-semibold transition cursor-pointer whitespace-nowrap flex-shrink-0"
               title="Sign Out to Login"
             >
               <LogOut className="w-3.5 h-3.5" />
-              <span className="hidden sm:inline">Sign Out</span>
+              <span>Sign Out</span>
             </button>
           </div>
         </div>
